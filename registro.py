@@ -11,9 +11,14 @@ Alumnos = [
     {'nombre': 'Gaspar', 'apellido': 'Barea', 'edad': 19, 'especialidad': 'Informatica'}
 ]
 
-print("Lista de Alumnos:")
-for Alumno in Alumnos:
-    print(f"Nombre: {Alumno.get('nombre')}, Apellido: {Alumno.get('apellido')}, Edad: {Alumno.get('edad')}, Especialidad: {Alumno.get('especialidad')}")
+def mostrar_alumnos():
+    print("Lista de Alumnos:")
+    for Alumno in Alumnos:
+        print(f"Nombre: {Alumno['nombre']}, Apellido: {Alumno['apellido']}, Edad: {Alumno['edad']}, Especialidad: {Alumno['especialidad']}")
+
+def agregar_alumno(nombre, apellido, edad, especialidad):
+    nuevo_alumno = {'nombre': nombre, 'apellido': apellido, 'edad': edad, 'especialidad': especialidad}
+    Alumnos.append(nuevo_alumno)
 
 def actualizar_alumno(nombre, apellido, nuevos_datos):
     for alumno in Alumnos:
@@ -33,24 +38,52 @@ def eliminar_alumno(nombre, apellido):
             alumnos_eliminados.append(alumno)  
     Alumnos = [alumno for alumno in Alumnos if not (alumno['nombre'] == nombre and alumno['apellido'] == apellido)]
 
-actualizados = []  
-
-actualizados.append(actualizar_alumno('Lucio', 'Aguilar', {'edad': 20, 'especialidad': 'Ingenieria'}))
-actualizados.append(actualizar_alumno('Federico', 'Caracciolo', {'edad': 21, 'especialidad': 'Matematica'}))
-actualizados.append(actualizar_alumno('Luca', 'Pons', {'edad': 19, 'especialidad': 'Construcciones Avanzadas'}))
-
-actualizados = [alumno for alumno in actualizados if alumno is not None]
-
-print("\nAlumnos actualizados:")
-for Alumno in actualizados:
-    print(f"Nombre: {Alumno.get('nombre')}, Apellido: {Alumno.get('apellido')}, Edad: {Alumno.get('edad')}, Especialidad: {Alumno.get('especialidad')}")
-
-eliminar_alumno('Martin', 'Gonzalez')
-
-print("\nAlumnos eliminados:")
-for Alumno in alumnos_eliminados:
-    print(f"Nombre: {Alumno.get('nombre')}, Apellido: {Alumno.get('apellido')}, Edad: {Alumno.get('edad')}, Especialidad: {Alumno.get('especialidad')}")
-
-print("\nLista de Alumnos después de la eliminación:")
-for Alumno in Alumnos:
-    print(f"Nombre: {Alumno.get('nombre')}, Apellido: {Alumno.get('apellido')}, Edad: {Alumno.get('edad')}, Especialidad: {Alumno.get('especialidad')}")
+# Menú principal
+while True:
+    print("\nOpciones:")
+    print("1. Mostrar Alumnos")
+    print("2. Agregar Alumno")
+    print("3. Actualizar Alumno")
+    print("4. Eliminar Alumno")
+    print("5. Salir")
+    
+    opcion = input("Seleccione una opción: ")
+    
+    if opcion == '1':
+        mostrar_alumnos()
+        
+    elif opcion == '2':
+        nombre = input("Ingrese el nombre del alumno: ")
+        apellido = input("Ingrese el apellido del alumno: ")
+        edad = int(input("Ingrese la edad del alumno: "))
+        especialidad = input("Ingrese la especialidad del alumno: ")
+        agregar_alumno(nombre, apellido, edad, especialidad)
+        print("Alumno agregado exitosamente.")
+        
+    elif opcion == '3':
+        nombre = input("Ingrese el nombre del alumno a actualizar: ")
+        apellido = input("Ingrese el apellido del alumno a actualizar: ")
+        nuevos_datos = {}
+        nuevos_datos['edad'] = int(input("Ingrese la nueva edad: "))
+        nuevos_datos['especialidad'] = input("Ingrese la nueva especialidad: ")
+        alumno_actualizado = actualizar_alumno(nombre, apellido, nuevos_datos)
+        if alumno_actualizado:
+            print("Alumno actualizado exitosamente.")
+        else:
+            print("Alumno no encontrado.")
+        
+    elif opcion == '4':
+        nombre = input("Ingrese el nombre del alumno a eliminar: ")
+        apellido = input("Ingrese el apellido del alumno a eliminar: ")
+        eliminar_alumno(nombre, apellido)
+        if alumnos_eliminados:
+            print("Alumno eliminado exitosamente.")
+        else:
+            print("Alumno no encontrado.")
+        
+    elif opcion == '5':
+        print("Saliendo del programa.")
+        break
+        
+    else:
+        print("Opción no válida. Intente de nuevo.")
